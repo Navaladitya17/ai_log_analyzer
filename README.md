@@ -1,116 +1,112 @@
-AI Log Analyzer — Intelligent Log File Anomaly Detection
+AI Log Analyzer
+Intelligent Log File Analysis & Anomaly Detection Platform
+Overview
 
-Overview : 
-AI Log Analyzer is a Flask-based web application that uses machine learning (Isolation Forest) to detect anomalies or irregularities in large log files.
-It helps security analysts and developers identify potential issues, security threats, or unusual activity in log data quickly — with interactive dashboards, charts, and PDF/CSV reports.
+AI Log Analyzer is a secure, machine-learning–driven web application designed to identify anomalies and irregular patterns in structured log data.
+Built with Flask and powered by Isolation Forest, it provides an end-to-end interface for ingesting, processing, and visualizing log files through dynamic dashboards and downloadable reports.
 
-🚀 Features
+Key Features
 
-📁 Upload any CSV log file (up to 200 MB)
+Automated Anomaly Detection – Detects unusual or suspicious entries using Isolation Forest.
 
-🤖 AI-powered anomaly detection using IsolationForest
+Comprehensive Reporting – Exports results to downloadable PDF and CSV formats.
 
-📊 Interactive charts with Chart.js
+Visual Analytics – Interactive dashboards with risk-level indicators and charts powered by Chart.js.
 
-📈 Risk level indicators (Low / Medium / High / Critical)
+Large-File Support – Optimized processing for datasets exceeding 100 MB using chunked computation.
 
-📑 Downloadable PDF & CSV reports
+Data Security – Strict upload validation, HTTPS enforcement, and modern security headers.
 
-🧱 Secure architecture with HTTPS & strong Flask headers
+Responsive Design – Minimalist interface optimized for both desktop and mobile browsers.
 
-🌙 Responsive modern UI with dark-themed dashboard
-
-⚙️ Handles both small and large CSVs (chunked processing for big files)
-
-🧰 Tech Stack
-Component	Technology
-Frontend	HTML5, CSS3, JavaScript, Chart.js
-Backend	Flask (Python 3), Pandas, scikit-learn
-ML Model	Isolation Forest
-Deployment	Render (Free Tier)
-Reporting	FPDF for PDF generation
-🏗️ Project Structure
+Technology Stack
+Layer	Technology
+Frontend	HTML 5, CSS 3, JavaScript (Chart.js)
+Backend	Python 3 / Flask
+Machine Learning	Scikit-learn (Isolation Forest), Pandas
+PDF Generation	FPDF
+Hosting	Render (Free Tier)
+Project Structure
 ai_log_analyzer/
 │
-├── app.py                 # Main Flask app
-├── analyzer.py            # Core ML logic
-├── requirements.txt       # Python dependencies
-├── Procfile               # For Render deployment
+├── app.py               # Flask application and routing logic
+├── analyzer.py          # ML model and data-processing pipeline
+├── requirements.txt     # Dependencies
+├── Procfile             # Deployment configuration
 │
-├── templates/             # Jinja2 HTML templates
+├── templates/           # Jinja2 templates
 │   ├── index.html
 │   └── report.html
 │
-├── static/                # CSS, JS, and images
+├── static/              # Front-end assets (CSS, JS, icons)
 │   ├── style.css
 │   └── script.js
 │
-└── uploads/               # Temporary uploaded files (auto-created)
+└── uploads/             # Temporary storage for user uploads
 
-🧪 Local Setup
-
-To run this project locally on your system:
-
-# 1️⃣ Clone the repository
-git clone https://github.com/YOUR_USERNAME/ai_log_analyzer.git
+Local Deployment
+# 1. Clone repository
+git clone https://github.com/<your-username>/ai_log_analyzer.git
 cd ai_log_analyzer
 
-# 2️⃣ Create virtual environment
+# 2. Create virtual environment
 python -m venv venv
-venv\Scripts\activate   # (on Windows)
+venv\Scripts\activate   # Windows
 # or
-source venv/bin/activate  # (on macOS/Linux)
+source venv/bin/activate  # macOS/Linux
 
-# 3️⃣ Install dependencies
+# 3. Install dependencies
 pip install -r requirements.txt
 
-# 4️⃣ Run the app
+# 4. Launch application
 python app.py
 
 
-Then open your browser and visit:
-👉 https://127.0.0.1:5000/
+Access the dashboard locally at:
+➡ https://127.0.0.1:5000
 
-☁️ Deployment (Render)
+Cloud Deployment (Render)
 
-Push your repository to GitHub.
+Push the repository to GitHub.
 
-Go to Render.com
-.
+In Render, select New → Web Service.
 
-Click New → Web Service.
+Connect this GitHub repository.
 
-Connect your GitHub repo.
+Configure:
 
-Fill these fields:
+Build Command → pip install -r requirements.txt
 
-Build Command: pip install -r requirements.txt
+Start Command → gunicorn app:app
 
-Start Command: gunicorn app:app
+Choose instance type Free (for personal/demo use).
 
-Deploy 🚀 — your site will be live at
-(https://ai-log-analyzer-culk.onrender.com/)
+Deploy.
 
-🛡️ Security Highlights
+Access your public URL:
+https://ai-log-analyzer-culk.onrender.com/
 
-Enforced HTTPS via Flask redirect middleware
+Security Implementation
 
-Added secure headers (CSP, HSTS, X-Frame-Options, etc.)
+HTTPS Enforcement (automatic redirect)
 
-Limited uploads to CSV only
+Strict-Transport-Security (HSTS)
 
-Max upload size: 200 MB
+X-Frame-Options and X-Content-Type-Options headers
 
-Auto cleanup of temporary files
+CSP restricting external scripts and styles
 
-🧑‍💻 Author
+File Upload Restriction to CSV only (≤ 200 MB)
+
+Session Hardening via HttpOnly, Secure, and SameSite attributes
+
+Author
 
 Aditya Yewatikar
-📫 LinkedIn
+Email: — officialadityayewatikar@gmail.com
+LinkedIn: www.linkedin.com/in/aditya-yewatikar-02791323a
+Live Demo: https://ai-log-analyzer-culk.onrender.com/
 
-🔗 Project Live : https://ai-log-analyzer-culk.onrender.com
+Acknowledgements
 
-⭐ Support
-
-If you find this project useful — please star the repository ⭐
-and share it with others!
+Developed as part of a cybersecurity and AI-driven analytics initiative focusing on automated log interpretation and anomaly detection.
