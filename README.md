@@ -27,7 +27,9 @@ Backend	Python 3 / Flask
 Machine Learning	Scikit-learn (Isolation Forest), Pandas
 PDF Generation	FPDF
 Hosting	Render (Free Tier)
-Project Structure
+
+Project Structure :
+
 ai_log_analyzer/
 │
 ├── app.py               # Flask application and routing logic
@@ -45,7 +47,8 @@ ai_log_analyzer/
 │
 └── uploads/             # Temporary storage for user uploads
 
-Local Deployment
+Local Deployment :
+
 # 1. Clone repository
 git clone https://github.com/<your-username>/ai_log_analyzer.git
 cd ai_log_analyzer
@@ -66,26 +69,26 @@ python app.py
 Access the dashboard locally at:
 ➡ https://127.0.0.1:5000
 
-Cloud Deployment (Render)
+Cloud Deployment (Render) :
 
 1) Push the repository to GitHub.
 
-2)In Render, select New → Web Service.
+2) In Render, select New → Web Service.
 
-3)Connect this GitHub repository.
+3) Connect this GitHub repository.
 
-4)Configure:
+4) Configure:
 
-- Build Command → pip install -r requirements.txt
+    - Build Command → pip install -r requirements.txt
 
-- Start Command → gunicorn app:app
+    - Start Command → gunicorn app:app
 
-5)Choose instance type Free (for personal/demo use).
+5) Choose instance type Free (for personal/demo use).
 
-6)Deploy.
+6) Deploy.
 
-7)Access your public URL:
-https://<your-app-name>.onrender.com
+7) Access your public URL:
+   https://<your-app-name>.onrender.com
 
 Security Implementation :
 
@@ -108,6 +111,6 @@ Email: — officialadityayewatikar@gmail.com
 LinkedIn: www.linkedin.com/in/aditya-yewatikar-02791323a
 Live Demo: https://ai-log-analyzer-culk.onrender.com/
 
-Acknowledgements
+Acknowledgements :
 
 Developed as part of a cybersecurity and AI-driven analytics initiative focusing on automated log interpretation and anomaly detection.
