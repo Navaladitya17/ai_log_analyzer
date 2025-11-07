@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AI LOG ANALYZER - Report</title>
+
+    <!-- STYLES -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style_report.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Smooch+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <!-- META & ICON -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='green.png') }}"
+    />
+  </head>
+
+  <body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+      <div class="nav-left">
+        <h2>CYBERADII</h2>
+      </div>
+      <div class="nav-right">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="#charts">Charts</a>
+        <a href="#table">Anomalies</a>
+      </div>
+    </nav>
+
+    <div class="container">
+      <!-- ===== HEADER ===== -->
+      <header>
+        <h1 class="cyber-title">AI LOG ANALYZER</h1>
+        <p class="cyber-sub">Detailed Report</p>
+        <p class="subtitle">File: {{ filename }} — Size: {{ file_size_mb }} MB</p>
+      </header>
+
+      <!-- ===== MAIN ===== -->
+      <main>
+        {% set percent = anomaly_percent|float if anomaly_percent != 'N/A' else 0 %}
+        {% if anomaly_count == 0 %}
+          <div class="alert alert-success">
+            ✅ No anomalies found — your log file looks clean.
+          </div>
+        {% elif percent < 1 %}
+          <div class="alert alert-info">
+            ⚠ Minor irregularities detected ({{ anomaly_count }} entries) — severity:
+            <b>Low</b>.
+          </div>
+        {% elif percent < 5 %}
+          <div class="alert alert-warning">
+            ⚠ {{ anomaly_count }} anomalies detected — severity: <b>Medium</b>.
+          </div>
+        {% elif percent < 15 %}
+          <div class="alert alert-danger">
+            ⚠ High anomaly rate ({{ anomaly_percent }}) — severity: <b>High</b>.
+          </div>
+        {% else %}
+          <div class="alert alert-critical">
+            🚨 Critical alert! {{ anomaly_percent }} of logs flagged — severity:
+            <b>Critical</b>.
+          </div>
+        {% endif %}
+
+        <!-- ===== METRICS ===== -->
+        <section class="metrics">
+          <div class="metric">
+            <div class="metric-title">Anomalies</div>
+            <div class="metric-value">{{ anomaly_count }}</div>
+          </div>
+          <div class="metric">
+            <div class="metric-title">Total Rows</div>
+            <div class="metric-value">{{ total_rows }}</div>
+          </div>
+          <div class="metric">
+            <div class="metric-title">Anomaly Rate</div>
+            <div class="metric-value">{{ anomaly_percent }}</div>
+          </div>
+        </section>
+
+        <!-- ===== DOWNLOAD BUTTONS ===== -->
+        <section class="downloads actions">
+          <a
+            class="btn"
+            href="{{ url_for('download_file', filename=csv_path) }}"
+            >Download CSV</a
+          >
+          <a
+            class="btn"
+            href="{{ url_for('download_file', filename=pdf_path) }}"
+            >Download PDF</a
+          >
+          <button class="btn" id="saveReport">Save as HTML Report</button>
+        </section>
+
+        <section id="charts" class="chart-section">
+  <h3>Visual Analysis</h3>
+  <div class="chart-grid">
+    <div class="chart-box">
+      <h4>Log Health Overview</h4>
+      <canvas
+        id="anomalyChart"
+        data-normal="{{ total_rows - anomaly_count if total_rows else 0 }}"
+        data-anomaly="{{ anomaly_count }}"
+        height="180"
+      ></canvas>
+    </div>
+
+    <div class="chart-box">
+      <h4>Severity Risk Levels</h4>
+      <canvas
+        id="barChart"
+        data-percent="{{ anomaly_percent | replace('%','') if anomaly_percent != 'N/A' else 0 }}"
+        height="180"
+      ></canvas>
+    </div>
+  </div>
+
+
+          <!-- ===== RISK SUMMARY ===== -->
+          <div class="risk-summary">
+            <div class="risk-label">
+              Risk Level:
+              {% if anomaly_count == 0 %}
+                <span class="low">Low</span>
+              {% elif percent < 1 %}
+                <span class="low">Low</span>
+              {% elif percent < 5 %}
+                <span class="medium">Medium</span>
+              {% elif percent < 15 %}
+                <span class="high">High</span>
+              {% else %}
+                <span class="critical">Critical</span>
+              {% endif %}
+            </div>
+            <div class="risk-bar">
+              <div
+                class="risk-fill"
+                style="width: {{ anomaly_percent | replace('%','') if anomaly_percent != 'N/A' else 0 }}%;"
+              ></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== ANOMALY TABLE ===== -->
+        <section id="table" class="table">
+          <h3>Top Detected Anomalies</h3>
+          {% if top_anomalies %}
+            <table>
+              <thead>
+                <tr>
+                  {% for c in cols[:8] %}
+                    <th>{{ c }}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in top_anomalies %}
+                  <tr>
+                    {% for c in cols[:8] %}
+                      <td>{{ row[c] }}</td>
+                    {% endfor %}
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p>No anomalies detected.</p>
+          {% endif %}
+        </section>
+      </main>
+
+      <!-- ===== FOOTER ===== -->
+      <footer class="site-footer">
+        <div class="footer-container">
+          <div class="footer-left">
+            <b>CYBERADII</b> © 2025 — Developed by <b>Aditya Yewatikar</b>
+          </div>
+          <div class="footer-right">
+            <a href="{{ url_for('index') }}">Home</a> |
+            <a href="#about">About</a>
+          </div>
+        </div>
+        <div class="footer-tagline">Secure • Analyze • Detect</div>
+      </footer>
+    </div>
+
+    <!-- ===== SAVE REPORT SCRIPT (CSS Embedded) ===== -->
+    <!-- ===== SAVE REPORT SCRIPT (EMBED CSS + JS) ===== -->
+<script>
+document.getElementById("saveReport").addEventListener("click", async function () {
+  const cssUrl = "{{ url_for('static', filename='style_report.css') }}";
+  const jsUrl = "{{ url_for('static', filename='script.js') }}";
+
+  // Fetch both CSS and JS
+  const [cssText, jsText] = await Promise.all([
+    fetch(cssUrl).then(r => r.text()),
+    fetch(jsUrl).then(r => r.text())
+  ]);
+
+  // Build full self-contained HTML
+  const htmlContent = `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>AI LOG ANALYZER - Report</title>
+    <style>${cssText}</style>
+  </head>
+  <body>
+    ${document.body.innerHTML}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"><\/script>
+    <script>${jsText}<\/script>
+  </body>
+  </html>`;
+
+  // Create downloadable blob
+  const blob = new Blob([htmlContent], { type: "text/html" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "log_report.html";
+  link.click();
+});
+</script>
+  </body>
+</html>

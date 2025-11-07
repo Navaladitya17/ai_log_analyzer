@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AI LOG ANALYZER</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Smooch+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+    <!-- ✅ Correct favicon path -->
+    <link
+      rel="icon"
+      type="image/png"
+      href="{{ url_for('static', filename='green.png') }}"
+    />
+  </head>
+
+  <body>
+    <!-- ======= NAVBAR ======= -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">CYBERADII</div>
+        <ul class="nav-links">
+          <li><a href="{{ url_for('index') }}" class="active">HOME</a></li>
+          <li><a href="#about">ABOUT</a></li>
+         </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <!-- ======= HEADER ======= -->
+      <header>
+        <div class="upload-icon"></div>
+        <h1 class="cyber-title">AI LOG ANALYZER</h1>
+        <p class="cyber-sub">Cyber Threat Detection & Log Intelligence</p>
+      </header>
+
+      <!-- ======= MAIN FORM ======= -->
+      <main>
+        <form
+          method="post"
+          action="{{ url_for('analyze') }}"
+          enctype="multipart/form-data"
+        >
+          <div class="uploader">
+            <label for="file">Choose Log File (CSV)</label>
+            <input id="file" name="file" type="file" accept=".csv" required />
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn">Analyze</button>
+          </div>
+        </form>
+
+        <section class="notes">
+          <h3 class="notes-title">Notes</h3>
+          <ul>
+            <li>Upload your system or security log in CSV format.</li>
+            <li>Files larger than <b>30 MB</b> will be analyzed in chunk mode for efficiency.</li>
+            <li>Analysis runs locally — your data never leaves your computer.</li>
+          </ul>
+        </section>
+
+        <!-- ======= ABOUT SECTION ======= -->
+        <section id="about" class="about-section">
+          <h2>About This Project</h2>
+          <p>
+            <b>AI LOG ANALYZER</b> is an advanced cybersecurity tool built to detect unusual activity
+            or anomalies inside system logs using AI-based isolation models.
+            It helps identify potential intrusions, network breaches, or misconfigurations
+            before they cause damage.
+          </p>
+          <p>
+            Built with <b>Python</b>, <b>Flask</b>, and <b>Machine Learning</b>, it performs anomaly detection
+            and visual analytics completely offline for maximum data privacy.
+          </p>
+        </section>
+      </main>
+    </div>
+
+    <!-- ======= FOOTER ======= -->
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-left">
+          <b>CYBERADII</b> © 2025 — Developed by <b>Aditya Yewatikar</b>
+        </div>
+        <div class="footer-right">
+          <a href="{{ url_for('index') }}">Home</a> |
+          <a href="#about">About</a> |
+         </div>
+      </div>
+      <div class="footer-tagline">Secure • Analyze • Detect</div>
+    </footer>
+  </body>
+</html>
